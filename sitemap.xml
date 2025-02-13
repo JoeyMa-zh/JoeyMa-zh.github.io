@@ -2,17 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:50187/</loc>
+    <loc>//localhost:1313/</loc>
     <lastmod>2025-02-12T14:03:41+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:50187/posts/</loc>
+    <loc>//localhost:1313/posts/</loc>
     <lastmod>2025-02-12T14:03:41+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:50187/posts/touch-react/</loc>
+    <loc>//localhost:1313/posts/touch-react/</loc>
     <lastmod>2025-02-12T14:03:41+08:00</lastmod>
   </url><url>
-    <loc>http://localhost:50187/categories/</loc>
+    <loc>//localhost:1313/categories/</loc>
   </url><url>
-    <loc>http://localhost:50187/tags/</loc>
+    <loc>//localhost:1313/tags/</loc>
   </url>
 </urlset>
