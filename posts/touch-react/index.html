@@ -1,132 +1,23 @@
-<!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>Touch React | Joey Blog</title>
-<meta name=keywords content><meta name=description content="
-文章基于React 18.3 版本
-这篇文章记录了我从0开始接触React基础实现的过程，参考于：
+<!doctype html><html lang=en dir=auto><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="noindex, nofollow"><title>Touch React | Joey Blog</title>
+<meta name=keywords content="React"><meta name=description content="
+文章基于 React 18.3 版本
+这篇文章记录了我从 0 开始接触 React 基础实现的过程，参考于：
 
 构建你自己的 React (pomb.us)
 React 技术揭秘 (gitee.io)
-React18正式版源码级剖析 - 掘金 (juejin.cn)
+React18 正式版源码级剖析 - 掘金 (juejin.cn)
 
-推荐先看React官网的：React 哲学 – React 中文文档 (docschina.org)
+推荐先看 React 官网的：React 哲学 – React 中文文档 (docschina.org)
 creatElement
-耳熟能详 的JSX，它是如何变成我们熟悉的DOM的？这归功于React的creatElement，学过Vue的都知道，它们连名字都一样，这个函数主要的作用都是近乎相同允许你在HTML中编写JavaScript，唯一的区别就是React是静态的dom，Vue是动态的dom，从编写的形式和语法上可以看出，React更偏向于手动挡，Vue则是自动挡。回到正题，React的createElement更偏向于JavaScript的编写，因为children就在prop里面，而Vue是加了一层插槽。React中createElement重要参数就是type和prop，接触过Vue的就很熟悉，其实就是日常Vue模版使用的标签和props，所以React的createElement看起来像：
-const element = React.createElement(
- type:&#34;h1&#34;,
- prop:{ 
-  title: &#34;foo&#34;,
-  },
-  children: &#34;Hello&#34;
-)
-接着通过React它会变成这样的DOM：
-<h1 title=&#34;foo&#34;> Hello </h1>
-在React内部，实际上是这样的伪代码:这里其实是简易的render
-const container = document.getElementById('root');
-const node = document.createElement(element.type);
-node['title'] = element.prop.title;
-const text = document.createTextNode(&#34;&#34;);
-text[&#34;nodeValue&#34;] = element.props.children;
-node.appendChild(text);
-container.appendChild(node);
-
-这里要插入一下，为什么用appendChild而不是innerText，是因为appendChild可以复用
-createElement生成的东西张这样：
-{
-  type: 'div',
-  props: {
-    className: 'container',
-    children: [
-      {
-        type: 'h1',
-        props: {
-          children: 'Hello, World!'
-        }
-      },
-      {
-        type: 'p',
-        props: {
-          children: 'This is a paragraph.'
-        }
-      }
-    ]
-  }
-}
-render
-将虚拟DOM映射到真实的DOM中，并且挂载到容器上"><meta name=author content="Joey"><link rel=canonical href=https://joeyma-zh.github.io/posts/touch-react/><meta name=google-site-verification content="XYZabc"><meta name=yandex-verification content="XYZabc"><meta name=msvalidate.01 content="XYZabc"><link crossorigin=anonymous href=/assets/css/stylesheet.45e028aa8ce0961349adf411b013ee39406be2c0bc80d4ea3fc04555f7f4611a.css integrity="sha256-ReAoqozglhNJrfQRsBPuOUBr4sC8gNTqP8BFVff0YRo=" rel="preload stylesheet" as=style><link rel=icon href=https://joeyma-zh.github.io/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://joeyma-zh.github.io/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://joeyma-zh.github.io/favicon-32x32.png><link rel=apple-touch-icon href=https://joeyma-zh.github.io/apple-touch-icon.png><link rel=mask-icon href=https://joeyma-zh.github.io/safari-pinned-tab.svg><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=en href=https://joeyma-zh.github.io/posts/touch-react/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><meta property="og:url" content="https://joeyma-zh.github.io/posts/touch-react/"><meta property="og:site_name" content="Joey Blog"><meta property="og:title" content="Touch React"><meta property="og:description" content=" 文章基于React 18.3 版本
-这篇文章记录了我从0开始接触React基础实现的过程，参考于：
-构建你自己的 React (pomb.us) React 技术揭秘 (gitee.io) React18正式版源码级剖析 - 掘金 (juejin.cn) 推荐先看React官网的：React 哲学 – React 中文文档 (docschina.org)
-creatElement 耳熟能详 的JSX，它是如何变成我们熟悉的DOM的？这归功于React的creatElement，学过Vue的都知道，它们连名字都一样，这个函数主要的作用都是近乎相同允许你在HTML中编写JavaScript，唯一的区别就是React是静态的dom，Vue是动态的dom，从编写的形式和语法上可以看出，React更偏向于手动挡，Vue则是自动挡。回到正题，React的createElement更偏向于JavaScript的编写，因为children就在prop里面，而Vue是加了一层插槽。React中createElement重要参数就是type和prop，接触过Vue的就很熟悉，其实就是日常Vue模版使用的标签和props，所以React的createElement看起来像：
-const element = React.createElement( type:&#34;h1&#34;, prop:{ title: &#34;foo&#34;, }, children: &#34;Hello&#34; ) 接着通过React它会变成这样的DOM：
-<h1 title=&#34;foo&#34;> Hello </h1> 在React内部，实际上是这样的伪代码:这里其实是简易的render
-const container = document.getElementById('root'); const node = document.createElement(element.type); node['title'] = element.prop.title; const text = document.createTextNode(&#34;&#34;); text[&#34;nodeValue&#34;] = element.props.children; node.appendChild(text); container.appendChild(node); 这里要插入一下，为什么用appendChild而不是innerText，是因为appendChild可以复用
-createElement生成的东西张这样：
-{ type: 'div', props: { className: 'container', children: [ { type: 'h1', props: { children: 'Hello, World!' } }, { type: 'p', props: { children: 'This is a paragraph.' } } ] } } render 将虚拟DOM映射到真实的DOM中，并且挂载到容器上"><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2025-02-12T14:03:41+08:00"><meta property="article:modified_time" content="2025-02-12T14:03:41+08:00"><meta property="og:image" content="https://joeyma-zh.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://joeyma-zh.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"><meta name=twitter:title content="Touch React"><meta name=twitter:description content="
-文章基于React 18.3 版本
-这篇文章记录了我从0开始接触React基础实现的过程，参考于：
-
-构建你自己的 React (pomb.us)
-React 技术揭秘 (gitee.io)
-React18正式版源码级剖析 - 掘金 (juejin.cn)
-
-推荐先看React官网的：React 哲学 – React 中文文档 (docschina.org)
-creatElement
-耳熟能详 的JSX，它是如何变成我们熟悉的DOM的？这归功于React的creatElement，学过Vue的都知道，它们连名字都一样，这个函数主要的作用都是近乎相同允许你在HTML中编写JavaScript，唯一的区别就是React是静态的dom，Vue是动态的dom，从编写的形式和语法上可以看出，React更偏向于手动挡，Vue则是自动挡。回到正题，React的createElement更偏向于JavaScript的编写，因为children就在prop里面，而Vue是加了一层插槽。React中createElement重要参数就是type和prop，接触过Vue的就很熟悉，其实就是日常Vue模版使用的标签和props，所以React的createElement看起来像：
-const element = React.createElement(
- type:&#34;h1&#34;,
- prop:{ 
-  title: &#34;foo&#34;,
-  },
-  children: &#34;Hello&#34;
-)
-接着通过React它会变成这样的DOM：
-<h1 title=&#34;foo&#34;> Hello </h1>
-在React内部，实际上是这样的伪代码:这里其实是简易的render
-const container = document.getElementById('root');
-const node = document.createElement(element.type);
-node['title'] = element.prop.title;
-const text = document.createTextNode(&#34;&#34;);
-text[&#34;nodeValue&#34;] = element.props.children;
-node.appendChild(text);
-container.appendChild(node);
-
-这里要插入一下，为什么用appendChild而不是innerText，是因为appendChild可以复用
-createElement生成的东西张这样：
-{
-  type: 'div',
-  props: {
-    className: 'container',
-    children: [
-      {
-        type: 'h1',
-        props: {
-          children: 'Hello, World!'
-        }
-      },
-      {
-        type: 'p',
-        props: {
-          children: 'This is a paragraph.'
-        }
-      }
-    ]
-  }
-}
-render
-将虚拟DOM映射到真实的DOM中，并且挂载到容器上"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://joeyma-zh.github.io/posts/"},{"@type":"ListItem","position":2,"name":"Touch React","item":"https://joeyma-zh.github.io/posts/touch-react/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Touch React","name":"Touch React","description":" 文章基于React 18.3 版本\n这篇文章记录了我从0开始接触React基础实现的过程，参考于：\n构建你自己的 React (pomb.us) React 技术揭秘 (gitee.io) React18正式版源码级剖析 - 掘金 (juejin.cn) 推荐先看React官网的：React 哲学 – React 中文文档 (docschina.org)\ncreatElement 耳熟能详 的JSX，它是如何变成我们熟悉的DOM的？这归功于React的creatElement，学过Vue的都知道，它们连名字都一样，这个函数主要的作用都是近乎相同允许你在HTML中编写JavaScript，唯一的区别就是React是静态的dom，Vue是动态的dom，从编写的形式和语法上可以看出，React更偏向于手动挡，Vue则是自动挡。回到正题，React的createElement更偏向于JavaScript的编写，因为children就在prop里面，而Vue是加了一层插槽。React中createElement重要参数就是type和prop，接触过Vue的就很熟悉，其实就是日常Vue模版使用的标签和props，所以React的createElement看起来像：\nconst element = React.createElement( type:\u0026#34;h1\u0026#34;, prop:{ title: \u0026#34;foo\u0026#34;, }, children: \u0026#34;Hello\u0026#34; ) 接着通过React它会变成这样的DOM：\n\u0026lt;h1 title=\u0026#34;foo\u0026#34;\u0026gt; Hello \u0026lt;/h1\u0026gt; 在React内部，实际上是这样的伪代码:这里其实是简易的render\nconst container = document.getElementById(\u0026#39;root\u0026#39;); const node = document.createElement(element.type); node[\u0026#39;title\u0026#39;] = element.prop.title; const text = document.createTextNode(\u0026#34;\u0026#34;); text[\u0026#34;nodeValue\u0026#34;] = element.props.children; node.appendChild(text); container.appendChild(node); 这里要插入一下，为什么用appendChild而不是innerText，是因为appendChild可以复用\ncreateElement生成的东西张这样：\n{ type: \u0026#39;div\u0026#39;, props: { className: \u0026#39;container\u0026#39;, children: [ { type: \u0026#39;h1\u0026#39;, props: { children: \u0026#39;Hello, World!\u0026#39; } }, { type: \u0026#39;p\u0026#39;, props: { children: \u0026#39;This is a paragraph.\u0026#39; } } ] } } render 将虚拟DOM映射到真实的DOM中，并且挂载到容器上\n","keywords":[],"articleBody":" 文章基于React 18.3 版本\n这篇文章记录了我从0开始接触React基础实现的过程，参考于：\n构建你自己的 React (pomb.us) React 技术揭秘 (gitee.io) React18正式版源码级剖析 - 掘金 (juejin.cn) 推荐先看React官网的：React 哲学 – React 中文文档 (docschina.org)\ncreatElement 耳熟能详 的JSX，它是如何变成我们熟悉的DOM的？这归功于React的creatElement，学过Vue的都知道，它们连名字都一样，这个函数主要的作用都是近乎相同允许你在HTML中编写JavaScript，唯一的区别就是React是静态的dom，Vue是动态的dom，从编写的形式和语法上可以看出，React更偏向于手动挡，Vue则是自动挡。回到正题，React的createElement更偏向于JavaScript的编写，因为children就在prop里面，而Vue是加了一层插槽。React中createElement重要参数就是type和prop，接触过Vue的就很熟悉，其实就是日常Vue模版使用的标签和props，所以React的createElement看起来像：\nconst element = React.createElement( type:\"h1\", prop:{ title: \"foo\", }, children: \"Hello\" ) 接着通过React它会变成这样的DOM：\n\u003ch1 title=\"foo\"\u003e Hello \u003c/h1\u003e 在React内部，实际上是这样的伪代码:这里其实是简易的render\nconst container = document.getElementById('root'); const node = document.createElement(element.type); node['title'] = element.prop.title; const text = document.createTextNode(\"\"); text[\"nodeValue\"] = element.props.children; node.appendChild(text); container.appendChild(node); 这里要插入一下，为什么用appendChild而不是innerText，是因为appendChild可以复用\ncreateElement生成的东西张这样：\n{ type: 'div', props: { className: 'container', children: [ { type: 'h1', props: { children: 'Hello, World!' } }, { type: 'p', props: { children: 'This is a paragraph.' } } ] } } render 将虚拟DOM映射到真实的DOM中，并且挂载到容器上\nfunction render(element, container) { // 创建对应的 DOM 节点 const dom = element.type == \"TEXT_ELEMENT\" ? document.createTextNode(\"\") : document.createElement(element.type); // 过滤并设置属性到 DOM 节点 const isProperty = key =\u003e key !== \"children\"; Object.keys(element.props) .filter(isProperty) .forEach(name =\u003e { dom[name] = element.props[name]; }); // 递归处理子元素 element.props.children.forEach(child =\u003e render(child, dom)); // 将当前 DOM 节点挂载到容器中 container.appendChild(dom); } 递归每个children直到它是文本节点，然后将除了children以外的props附属到节点中。这只是一个简易版本的render，没有更新和删除功能；\nConcurrent Mode（并发模式） 在浏览器刚开始渲染的时候，会阻塞主线程直到元素树渲染完成，通常如果元素树比较大会占用大量的时间，导致部分优先级操作（用户输入 、动画）等高级调度会被阻塞，所以React团队为了解决这个问题，将每个小任务分为单元，当浏览器的时候需要执行用户输入时，会中断渲染进场，等调度完成各单元继续工作。我们使用requestIdleCallback构建一个循环，当浏览器有空闲时执行回调函数(理解如同setTimeout);\nperformUnitOfWork 处理每个 Fiber 节点的操作，处理完成后返回下一个要处理的工作单元\n这里的Fiber是React轻量级的虚拟 DOM 节点\n由Filber节点构建的树称为Filber树。\n","wordCount":"163","inLanguage":"en","image":"https://joeyma-zh.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E","datePublished":"2025-02-12T14:03:41+08:00","dateModified":"2025-02-12T14:03:41+08:00","author":{"@type":"Person","name":"Joey"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://joeyma-zh.github.io/posts/touch-react/"},"publisher":{"@type":"Organization","name":"Joey Blog","logo":{"@type":"ImageObject","url":"https://joeyma-zh.github.io/favicon.ico"}}}</script></head><body id=top><script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add("dark"):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove("dark"):window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")</script><header class=header><nav class=nav><div class=logo><a href=https://joeyma-zh.github.io/ accesskey=h title="Joey Blog (Alt + H)">Joey Blog</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu></ul></nav></header><main class=main><article class=post-single><header class=post-header><div class=breadcrumbs><a href=https://joeyma-zh.github.io/>Home</a>&nbsp;»&nbsp;<a href=https://joeyma-zh.github.io/posts/>Posts</a></div><h1 class="post-title entry-hint-parent">Touch React</h1><div class=post-meta><span title='2025-02-12 14:03:41 +0800 CST'>February 12, 2025</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;163 words&nbsp;·&nbsp;Joey</div></header><div class=toc><details><summary accesskey=c title="(Alt + C)"><span class=details>Table of Contents</span></summary><div class=inner><nav id=TableOfContents><ul><li><ul><li><a href=#createlement>creatElement</a></li></ul></li><li><a href=#render>render</a><ul><li><a href=#concurrent-mode并发模式>Concurrent Mode（并发模式）</a></li></ul></li></ul></nav></div></details></div><div class=post-content><blockquote><p>文章基于React 18.3 版本</p></blockquote><p>这篇文章记录了我从0开始接触React基础实现的过程，参考于：</p><ul><li><a href=https://pomb.us/build-your-own-react/>构建你自己的 React (pomb.us)</a></li><li><a href=https://kasong.gitee.io/just-react/>React 技术揭秘 (gitee.io)</a></li><li><a href="https://juejin.cn/post/7080854114141208612?searchId=20240218111900F11391B3D9E87E26FA0E#heading-0">React18正式版源码级剖析 - 掘金 (juejin.cn)</a></li></ul><p>推荐先看React官网的：<a href=https://react.docschina.org/learn/thinking-in-react>React 哲学 – React 中文文档 (docschina.org)</a></p><h3 id=createlement>creatElement<a hidden class=anchor aria-hidden=true href=#createlement>#</a></h3><p>耳熟能详 的JSX，它是如何变成我们熟悉的DOM的？这归功于React的<a href=https://zh-hans.react.dev/reference/react/createElement#createelement>creatElement</a>，学过Vue的都知道，它们连名字都一样，这个函数主要的作用都是近乎相同允许你在<code>HTML</code>中编写JavaScript，唯一的区别就是React是静态的dom，Vue是动态的dom，从编写的形式和语法上可以看出，React更偏向于手动挡，Vue则是自动挡。回到正题，React的createElement更偏向于JavaScript的编写，因为children就在prop里面，而Vue是加了一层插槽。React中createElement重要参数就是<code>type</code>和<code>prop</code>，接触过Vue的就很熟悉，其实就是日常Vue模版使用的标签和props，所以React的createElement看起来像：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kr>const</span> <span class=nx>element</span> <span class=o>=</span> <span class=nx>React</span><span class=p>.</span><span class=nx>createElement</span><span class=p>(</span>
+耳熟能详 的 JSX，它是如何变成我们熟悉的 DOM 的？这归功于 React 的creatElement，学过 Vue 的都知道，它们连名字都一样，这个函数主要的作用都是近乎相同允许你在HTML中编写 JavaScript，唯一的区别就是 React 是静态的 dom，Vue 是动态的 dom，从编写的形式和语法上可以看出，React 更偏向于手动挡，Vue 则是自动挡。回到正题，React 的 createElement 更偏向于 JavaScript 的编写，因为 children 就在 prop 里面，而 Vue 是加了一层插槽。React 中 createElement 重要参数就是type和prop，接触过 Vue 的就很熟悉，其实就是日常 Vue 模版使用的标签和 props，所以 React 的 createElement 看起来像："><meta name=author content="Joey"><link rel=canonical href=//localhost:1313/posts/touch-react/><meta name=google-site-verification content="XYZabc"><meta name=yandex-verification content="XYZabc"><meta name=msvalidate.01 content="XYZabc"><link crossorigin=anonymous href=/assets/css/stylesheet.45e028aa8ce0961349adf411b013ee39406be2c0bc80d4ea3fc04555f7f4611a.css integrity="sha256-ReAoqozglhNJrfQRsBPuOUBr4sC8gNTqP8BFVff0YRo=" rel="preload stylesheet" as=style><link rel=icon href=//localhost:1313/favicon.ico><link rel=icon type=image/png sizes=16x16 href=//localhost:1313/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=//localhost:1313/favicon-32x32.png><link rel=apple-touch-icon href=//localhost:1313/apple-touch-icon.png><link rel=mask-icon href=//localhost:1313/safari-pinned-tab.svg><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=en href=//localhost:1313/posts/touch-react/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript></head><body id=top><script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add("dark"):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove("dark"):window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")</script><header class=header><nav class=nav><div class=logo><a href=//localhost:1313/ accesskey=h title="Joey Blog (Alt + H)">Joey Blog</a><div class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu><li><a href=//localhost:1313/ title=Categories><span>Categories</span></a></li><li><a href=//localhost:1313/tags/ title=Tags><span>Tags</span></a></li><li><a href=//localhost:1313/search/ title="Search (Alt + /)" accesskey=/><span>Search</span></a></li><li><a href=//localhost:1313/about/ title=About><span>About</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><div class=breadcrumbs><a href=//localhost:1313/>Home</a>&nbsp;»&nbsp;<a href=//localhost:1313/posts/>Posts</a></div><h1 class="post-title entry-hint-parent">Touch React</h1><div class=post-meta><span title='2025-02-12 14:03:41 +0800 CST'>February 12, 2025</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;275 words&nbsp;·&nbsp;Joey</div></header><div class=toc><details><summary accesskey=c title="(Alt + C)"><span class=details>Table of Contents</span></summary><div class=inner><nav id=TableOfContents><ul><li><a href=#createlement>creatElement</a><ul><li><a href=#createelement-解析的内容从何而来>createElement 解析的内容从何而来？</a></li></ul></li><li><a href=#render>render</a><ul><li><a href=#concurrent-mode并发模式>Concurrent Mode（并发模式）</a></li></ul></li></ul></nav></div></details></div><div class=post-content><blockquote><p>文章基于 React 18.3 版本</p></blockquote><p>这篇文章记录了我从 0 开始接触 React 基础实现的过程，参考于：</p><ul><li><a href=https://pomb.us/build-your-own-react/>构建你自己的 React (pomb.us)</a></li><li><a href=https://kasong.gitee.io/just-react/>React 技术揭秘 (gitee.io)</a></li><li><a href="https://juejin.cn/post/7080854114141208612?searchId=20240218111900F11391B3D9E87E26FA0E#heading-0">React18 正式版源码级剖析 - 掘金 (juejin.cn)</a></li></ul><p>推荐先看 React 官网的：<a href=https://react.docschina.org/learn/thinking-in-react>React 哲学 – React 中文文档 (docschina.org)</a></p><h2 id=createlement>creatElement<a hidden class=anchor aria-hidden=true href=#createlement>#</a></h2><p>耳熟能详 的 JSX，它是如何变成我们熟悉的 DOM 的？这归功于 React 的<a href=https://zh-hans.react.dev/reference/react/createElement#createelement>creatElement</a>，学过 Vue 的都知道，它们连名字都一样，这个函数主要的作用都是近乎相同允许你在<code>HTML</code>中编写 JavaScript，唯一的区别就是 React 是静态的 dom，Vue 是动态的 dom，从编写的形式和语法上可以看出，React 更偏向于手动挡，Vue 则是自动挡。回到正题，React 的 createElement 更偏向于 JavaScript 的编写，因为 children 就在 prop 里面，而 Vue 是加了一层插槽。React 中 createElement 重要参数就是<code>type</code>和<code>prop</code>，接触过 Vue 的就很熟悉，其实就是日常 Vue 模版使用的标签和 props，所以 React 的 createElement 看起来像：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kr>const</span> <span class=nx>element</span> <span class=o>=</span> <span class=nx>React</span><span class=p>.</span><span class=nx>createElement</span><span class=p>(</span>
 </span></span><span class=line><span class=cl> <span class=nx>type</span><span class=o>:</span><span class=s2>&#34;h1&#34;</span><span class=p>,</span>
-</span></span><span class=line><span class=cl> <span class=nx>prop</span><span class=o>:</span><span class=p>{</span> 
+</span></span><span class=line><span class=cl> <span class=nx>prop</span><span class=o>:</span><span class=p>{</span>
 </span></span><span class=line><span class=cl>  <span class=nx>title</span><span class=o>:</span> <span class=s2>&#34;foo&#34;</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>  <span class=p>},</span>
 </span></span><span class=line><span class=cl>  <span class=nx>children</span><span class=o>:</span> <span class=s2>&#34;Hello&#34;</span>
 </span></span><span class=line><span class=cl><span class=p>)</span>
-</span></span></code></pre></div><p>接着通过React它会变成这样的DOM：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>h1</span> <span class=na>title</span><span class=o>=</span><span class=s>&#34;foo&#34;</span><span class=p>&gt;</span> Hello <span class=p>&lt;/</span><span class=nt>h1</span><span class=p>&gt;</span>
-</span></span></code></pre></div><p>在React内部，实际上是这样的伪代码:这里其实是简易的render</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kr>const</span> <span class=nx>container</span> <span class=o>=</span> <span class=nb>document</span><span class=p>.</span><span class=nx>getElementById</span><span class=p>(</span><span class=s1>&#39;root&#39;</span><span class=p>);</span>
-</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>node</span> <span class=o>=</span> <span class=nb>document</span><span class=p>.</span><span class=nx>createElement</span><span class=p>(</span><span class=nx>element</span><span class=p>.</span><span class=nx>type</span><span class=p>);</span>
-</span></span><span class=line><span class=cl><span class=nx>node</span><span class=p>[</span><span class=s1>&#39;title&#39;</span><span class=p>]</span> <span class=o>=</span> <span class=nx>element</span><span class=p>.</span><span class=nx>prop</span><span class=p>.</span><span class=nx>title</span><span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>text</span> <span class=o>=</span> <span class=nb>document</span><span class=p>.</span><span class=nx>createTextNode</span><span class=p>(</span><span class=s2>&#34;&#34;</span><span class=p>);</span>
-</span></span><span class=line><span class=cl><span class=nx>text</span><span class=p>[</span><span class=s2>&#34;nodeValue&#34;</span><span class=p>]</span> <span class=o>=</span> <span class=nx>element</span><span class=p>.</span><span class=nx>props</span><span class=p>.</span><span class=nx>children</span><span class=p>;</span>
-</span></span><span class=line><span class=cl><span class=nx>node</span><span class=p>.</span><span class=nx>appendChild</span><span class=p>(</span><span class=nx>text</span><span class=p>);</span>
-</span></span><span class=line><span class=cl><span class=nx>container</span><span class=p>.</span><span class=nx>appendChild</span><span class=p>(</span><span class=nx>node</span><span class=p>);</span>
-</span></span></code></pre></div><blockquote><p>这里要插入一下，为什么用appendChild而不是innerText，是因为appendChild可以复用</p></blockquote><p>createElement生成的东西张这样：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=p>{</span>
+</span></span></code></pre></div><p>接着通过 React 它会变成这样的 DOM：</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>h1</span> <span class=na>title</span><span class=o>=</span><span class=s>&#34;foo&#34;</span><span class=p>&gt;</span>Hello<span class=p>&lt;/</span><span class=nt>h1</span><span class=p>&gt;</span>
+</span></span></code></pre></div><p>createElement 生成之后返回：返回的结构体叫做<strong>React 元素对象</strong>，它用于描述 UI 结构，这个产物最终会变成一个<code>filber</code>。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=p>{</span>
 </span></span><span class=line><span class=cl>  <span class=nx>type</span><span class=o>:</span> <span class=s1>&#39;div&#39;</span><span class=p>,</span>
 </span></span><span class=line><span class=cl>  <span class=nx>props</span><span class=o>:</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=nx>className</span><span class=o>:</span> <span class=s1>&#39;container&#39;</span><span class=p>,</span>
@@ -146,28 +37,45 @@ render
 </span></span><span class=line><span class=cl>    <span class=p>]</span>
 </span></span><span class=line><span class=cl>  <span class=p>}</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></div><h2 id=render>render<a hidden class=anchor aria-hidden=true href=#render>#</a></h2><p>将虚拟DOM映射到真实的DOM中，并且挂载到容器上</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kd>function</span> <span class=nx>render</span><span class=p>(</span><span class=nx>element</span><span class=p>,</span> <span class=nx>container</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>  <span class=c1>// 创建对应的 DOM 节点
-</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=kr>const</span> <span class=nx>dom</span> <span class=o>=</span>
-</span></span><span class=line><span class=cl>    <span class=nx>element</span><span class=p>.</span><span class=nx>type</span> <span class=o>==</span> <span class=s2>&#34;TEXT_ELEMENT&#34;</span>
-</span></span><span class=line><span class=cl>      <span class=o>?</span> <span class=nb>document</span><span class=p>.</span><span class=nx>createTextNode</span><span class=p>(</span><span class=s2>&#34;&#34;</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>      <span class=o>:</span> <span class=nb>document</span><span class=p>.</span><span class=nx>createElement</span><span class=p>(</span><span class=nx>element</span><span class=p>.</span><span class=nx>type</span><span class=p>);</span>
+</span></span></code></pre></div><h3 id=createelement-解析的内容从何而来>createElement 解析的内容从何而来？<a hidden class=anchor aria-hidden=true href=#createelement-解析的内容从何而来>#</a></h3><p>这里涉及到非常复杂的内容：<strong>Babel 的编译</strong>，babel 会帮助你把 JSX 文件编译成为可供解析的 JavaScript 代码，JSX 其实是一种语法糖，它允许在 JavaScript 环境中使用编写 HTML 结构的文件，但浏览器无法执行 JSX，因为它不是合法的 HTML 文件也不是合法的 JavaScript 代码，所以总的来说 JSX 是为了方便开发者的一种形式。</p><ol><li>解析 JSX 成为<strong>AST(抽象语法树)</strong>
+AST 是一种树状结构，表示代码的语法结构。</li></ol><h2 id=render>render<a hidden class=anchor aria-hidden=true href=#render>#</a></h2><p>通过<code>creatElement</code></p><p>在 React 内部，实际上是这样的伪代码:找到根容器，并根据 dom 类型创建容器，然后赋值上 props，之后就是处理 children 节点，如果 children 是文本，那直接创建文本节点，如果子元素是数组，递归处理每个子元素。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=kd>function</span> <span class=nx>render</span><span class=p>(</span><span class=nx>element</span><span class=p>,</span> <span class=nx>container</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=c1>// 创建 DOM 元素
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=kr>const</span> <span class=nx>node</span> <span class=o>=</span> <span class=nb>document</span><span class=p>.</span><span class=nx>createElement</span><span class=p>(</span><span class=nx>element</span><span class=p>.</span><span class=nx>type</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>  <span class=c1>// 过滤并设置属性到 DOM 节点
-</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=kr>const</span> <span class=nx>isProperty</span> <span class=o>=</span> <span class=nx>key</span> <span class=p>=&gt;</span> <span class=nx>key</span> <span class=o>!==</span> <span class=s2>&#34;children&#34;</span><span class=p>;</span>
-</span></span><span class=line><span class=cl>  <span class=nb>Object</span><span class=p>.</span><span class=nx>keys</span><span class=p>(</span><span class=nx>element</span><span class=p>.</span><span class=nx>props</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    <span class=p>.</span><span class=nx>filter</span><span class=p>(</span><span class=nx>isProperty</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    <span class=p>.</span><span class=nx>forEach</span><span class=p>(</span><span class=nx>name</span> <span class=p>=&gt;</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>      <span class=nx>dom</span><span class=p>[</span><span class=nx>name</span><span class=p>]</span> <span class=o>=</span> <span class=nx>element</span><span class=p>.</span><span class=nx>props</span><span class=p>[</span><span class=nx>name</span><span class=p>];</span>
-</span></span><span class=line><span class=cl>    <span class=p>});</span>
+</span></span><span class=line><span class=cl>  <span class=c1>// 设置属性
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=k>for</span> <span class=p>(</span><span class=kd>let</span> <span class=nx>propName</span> <span class=k>in</span> <span class=nx>element</span><span class=p>.</span><span class=nx>props</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=nx>propName</span> <span class=o>!==</span> <span class=s2>&#34;children&#34;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nx>node</span><span class=p>[</span><span class=nx>propName</span><span class=p>]</span> <span class=o>=</span> <span class=nx>element</span><span class=p>.</span><span class=nx>props</span><span class=p>[</span><span class=nx>propName</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>  <span class=c1>// 递归处理子元素
-</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=nx>element</span><span class=p>.</span><span class=nx>props</span><span class=p>.</span><span class=nx>children</span><span class=p>.</span><span class=nx>forEach</span><span class=p>(</span><span class=nx>child</span> <span class=p>=&gt;</span> <span class=nx>render</span><span class=p>(</span><span class=nx>child</span><span class=p>,</span> <span class=nx>dom</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>  <span class=c1>// 处理子元素
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=kr>const</span> <span class=nx>children</span> <span class=o>=</span> <span class=nx>element</span><span class=p>.</span><span class=nx>props</span><span class=p>.</span><span class=nx>children</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>  <span class=k>if</span> <span class=p>(</span><span class=k>typeof</span> <span class=nx>children</span> <span class=o>===</span> <span class=s2>&#34;string&#34;</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 如果子元素是文本，直接创建文本节点
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=kr>const</span> <span class=nx>textNode</span> <span class=o>=</span> <span class=nb>document</span><span class=p>.</span><span class=nx>createTextNode</span><span class=p>(</span><span class=nx>children</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nx>node</span><span class=p>.</span><span class=nx>appendChild</span><span class=p>(</span><span class=nx>textNode</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span> <span class=k>else</span> <span class=k>if</span> <span class=p>(</span><span class=nb>Array</span><span class=p>.</span><span class=nx>isArray</span><span class=p>(</span><span class=nx>children</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 如果子元素是数组，递归处理每个子元素
+</span></span></span><span class=line><span class=cl><span class=c1></span>    <span class=nx>children</span><span class=p>.</span><span class=nx>forEach</span><span class=p>((</span><span class=nx>child</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=nx>render</span><span class=p>(</span><span class=nx>child</span><span class=p>,</span> <span class=nx>node</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>  <span class=p>}</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>  <span class=c1>// 将当前 DOM 节点挂载到容器中
-</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=nx>container</span><span class=p>.</span><span class=nx>appendChild</span><span class=p>(</span><span class=nx>dom</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  <span class=c1>// 挂载到容器
+</span></span></span><span class=line><span class=cl><span class=c1></span>  <span class=nx>container</span><span class=p>.</span><span class=nx>appendChild</span><span class=p>(</span><span class=nx>node</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></div><p>递归每个children直到它是文本节点，然后将除了children以外的props附属到节点中。这只是一个简易版本的render，没有更新和删除功能；</p><h3 id=concurrent-mode并发模式>Concurrent Mode（并发模式）<a hidden class=anchor aria-hidden=true href=#concurrent-mode并发模式>#</a></h3><p>在浏览器刚开始渲染的时候，会阻塞主线程直到元素树渲染完成，通常如果元素树比较大会占用大量的时间，导致部分优先级操作（用户输入 、动画）等高级调度会被阻塞，所以React团队为了解决这个问题，将每个小任务分为单元，当浏览器的时候需要执行用户输入时，会中断渲染进场，等调度完成各单元继续工作。我们使用<a href=https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestIdleCallback>requestIdleCallback</a>构建一个循环，当浏览器有空闲时执行回调函数(理解如同setTimeout);</p><h4 id=performunitofwork>performUnitOfWork<a hidden class=anchor aria-hidden=true href=#performunitofwork>#</a></h4><p>处理每个 Fiber 节点的操作，处理完成后返回下一个要处理的工作单元</p><blockquote><p>这里的Fiber是React轻量级的虚拟 DOM 节点</p></blockquote><p>由Filber节点构建的树称为Filber树。</p></div><footer class=post-footer><ul class=post-tags></ul></footer></article></main><footer class=footer><span>&copy; 2025 <a href=https://joeyma-zh.github.io/>Joey Blog</a></span> ·
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 使用示例
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kr>const</span> <span class=nx>element</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=nx>type</span><span class=o>:</span> <span class=s2>&#34;div&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=nx>props</span><span class=o>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>className</span><span class=o>:</span> <span class=s2>&#34;container&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nx>children</span><span class=o>:</span> <span class=s2>&#34;Hello, World!&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=p>},</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>container</span> <span class=o>=</span> <span class=nb>document</span><span class=p>.</span><span class=nx>getElementById</span><span class=p>(</span><span class=s2>&#34;root&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=nx>render</span><span class=p>(</span><span class=nx>element</span><span class=p>,</span> <span class=nx>container</span><span class=p>);</span>
+</span></span></code></pre></div><h3 id=concurrent-mode并发模式>Concurrent Mode（并发模式）<a hidden class=anchor aria-hidden=true href=#concurrent-mode并发模式>#</a></h3><p>在浏览器刚开始渲染的时候，会阻塞主线程直到元素树渲染完成，通常如果元素树比较大会占用大量的时间，导致部分优先级操作（用户输入 、动画）等高级调度会被阻塞，所以 React 团队为了解决这个问题，将每个小任务分为单元，当浏览器的时候需要执行用户输入时，会中断渲染进场，等调度完成各单元继续工作。我们使用<a href=https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestIdleCallback>requestIdleCallback</a>构建一个递归，当浏览器有空闲时执行回调函数(理解如同 setTimeout);</p><h4 id=performunitofwork>performUnitOfWork<a hidden class=anchor aria-hidden=true href=#performunitofwork>#</a></h4><p>处理每个 Fiber 节点的操作，处理完成后返回下一个要处理的工作单元</p><blockquote><p>这里的 Fiber 节点是 React 实现虚拟 DOM 节点的形式</p></blockquote><p>由 Filber 节点构建的树称为 Filber 树。</p></div><footer class=post-footer><ul class=post-tags><li><a href=//localhost:1313/tags/react/>React</a></li></ul></footer></article></main><footer class=footer><span>&copy; 2025 <a href=//localhost:1313/>Joey Blog</a></span> ·
 <span>Powered by
 <a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
         <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
