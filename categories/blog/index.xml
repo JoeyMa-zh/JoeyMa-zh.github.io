@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Blog on Joey Blog</title>
+    <link>http://localhost:1313/categories/blog/</link>
+    <description>Recent content in Blog on Joey Blog</description>
+    <image>
+      <title>Joey Blog</title>
+      <url>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>http://localhost:1313/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- 0.143.1</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 12 Feb 2025 14:03:41 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Touch React</title>
+      <link>http://localhost:1313/posts/touch-react/</link>
+      <pubDate>Wed, 12 Feb 2025 14:03:41 +0800</pubDate>
+      <guid>http://localhost:1313/posts/touch-react/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;文章基于 React 18.3 版本&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;这篇文章记录了我从 0 开始接触 React 基础实现的过程，参考于：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://pomb.us/build-your-own-react/&#34;&gt;构建你自己的 React (pomb.us)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://kasong.gitee.io/just-react/&#34;&gt;React 技术揭秘 (gitee.io)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://juejin.cn/post/7080854114141208612?searchId=20240218111900F11391B3D9E87E26FA0E#heading-0&#34;&gt;React18 正式版源码级剖析 - 掘金 (juejin.cn)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;推荐先看 React 官网的：&lt;a href=&#34;https://react.docschina.org/learn/thinking-in-react&#34;&gt;React 哲学 – React 中文文档 (docschina.org)&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;createlement&#34;&gt;creatElement&lt;/h2&gt;
+&lt;p&gt;耳熟能详 的 JSX，它是如何变成我们熟悉的 DOM 的？这归功于 React 的&lt;a href=&#34;https://zh-hans.react.dev/reference/react/createElement#createelement&#34;&gt;creatElement&lt;/a&gt;，学过 Vue 的都知道，它们连名字都一样，这个函数主要的作用都是近乎相同允许你在&lt;code&gt;HTML&lt;/code&gt;中编写 JavaScript，唯一的区别就是 React 是静态的 dom，Vue 是动态的 dom，从编写的形式和语法上可以看出，React 更偏向于手动挡，Vue 则是自动挡。回到正题，React 的 createElement 更偏向于 JavaScript 的编写，因为 children 就在 prop 里面，而 Vue 是加了一层插槽。React 中 createElement 重要参数就是&lt;code&gt;type&lt;/code&gt;和&lt;code&gt;prop&lt;/code&gt;，接触过 Vue 的就很熟悉，其实就是日常 Vue 模版使用的标签和 props，所以 React 的 createElement 看起来像：&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
