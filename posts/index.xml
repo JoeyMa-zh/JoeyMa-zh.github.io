@@ -53,7 +53,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;createelement-解析的内容从何而来&#34;&gt;createElement 解析的内容从何而来？&lt;/h3&gt;
-&lt;p&gt;这里涉及到非常复杂的内容：&lt;strong&gt;Babel 的编译&lt;/strong&gt;，babel 会帮助你把 JSX 文件编译成为可供解析的 JavaScript 代码，JSX 其实是一种语法糖，它允许在 JavaScript 环境中使用编写 HTML 结构的文件，但浏览器无法执行 JSX，因为它不是合法的 HTML 文件也不是合法的 JavaScript 代码，所以总的来说 JSX 是为了方便开发者的一种形式。&lt;/p&gt;</description>
+&lt;p&gt;这里涉及到非常复杂的内容：&lt;strong&gt;Babel 的编译&lt;/strong&gt;，babel 会帮助你把 JSX 文件编译成为可供解析的 JavaScript 代码，JSX 其实是一种语法糖，它允许在 JavaScript 环境中使用编写 HTML 结构的文件。&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
